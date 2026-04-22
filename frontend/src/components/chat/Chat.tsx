@@ -20,10 +20,14 @@ export default function Chat() {
   const [isThinking, setIsThinking] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, []);
 
   useEffect(() => {
@@ -128,6 +132,7 @@ export default function Chat() {
     <div className="w-full max-w-3xl mx-auto flex flex-col">
       {/* Messages area */}
       <div
+        ref={messagesContainerRef}
         className="flex-1 overflow-y-auto px-4 py-6 space-y-6"
         style={{ minHeight: "320px", maxHeight: "520px" }}
       >
