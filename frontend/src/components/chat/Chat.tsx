@@ -71,7 +71,7 @@ export default function Chat() {
             const updated = [...prev];
             const last = updated[updated.length - 1];
             if (last.role === "assistant") {
-              last.thinking += chunk;
+              updated[updated.length - 1] = { ...last, thinking: last.thinking + chunk };
             }
             return updated;
           });
@@ -82,7 +82,7 @@ export default function Chat() {
             const updated = [...prev];
             const last = updated[updated.length - 1];
             if (last.role === "assistant") {
-              last.content += chunk;
+              updated[updated.length - 1] = { ...last, content: last.content + chunk };
             }
             return updated;
           });
