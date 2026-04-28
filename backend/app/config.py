@@ -7,8 +7,8 @@ load_dotenv()
 # --- API ---
 ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
 MODEL: str = "claude-sonnet-4-6"
-MAX_TOKENS: int = 8000  # max tokens for response
-THINKING_BUDGET: int = 5000  # max tokens for extended thinking
+MAX_TOKENS: int = 10000  # thinking tokens + response tokens combined
+THINKING_BUDGET: int = 1024  # max tokens for extended thinking
 
 # --- Rate Limiting ---
 RATE_LIMIT: str = "15/minute"
