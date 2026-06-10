@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 import { streamChat, type ChatMessage } from "@/lib/api";
 import ThinkingBlock from "./ThinkingBlock";
 import SuggestedQuestions from "./SuggestedQuestions";
@@ -201,10 +202,46 @@ export default function Chat() {
                 {/* Response text */}
                 {msg.content ? (
                   <div
-                    className="text-sm leading-relaxed whitespace-pre-wrap"
+                    className="text-sm leading-relaxed prose prose-invert prose-sm max-w-none"
                     style={{ color: "var(--text-primary)" }}
                   >
-                    {msg.content}
+                    <ReactMarkdown
+                      components={{
+                        strong: ({ children }) => (
+                          <strong style={{ color: "var(--accent)", fontWeight: 600 }}>{children}</strong>
+                        ),
+                        a: ({ href, children }) => (
+                          <a href={href} target="_blank" rel="noopener noreferrer"
+                            style={{ color: "var(--accent-dim)", textDecoration: "underline" }}>
+                            {children}
+                          </a>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="my-2 ml-4 space-y-1" style={{ listStyleType: "disc" }}>{children}</ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="my-2 ml-4 space-y-1" style={{ listStyleType: "decimal" }}>{children}</ol>
+                        ),
+                        li: ({ children }) => (
+                          <li style={{ color: "var(--text-secondary)" }}>{children}</li>
+                        ),
+                        code: ({ children }) => (
+                          <code className="px-1.5 py-0.5 rounded text-xs"
+                            style={{
+                              backgroundColor: "var(--bg-elevated)",
+                              fontFamily: "var(--font-mono)",
+                              color: "var(--accent)",
+                            }}>
+                            {children}
+                          </code>
+                        ),
+                        p: ({ children }) => (
+                          <p className="mb-2 last:mb-0">{children}</p>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
                     {isLoading &&
                       !isThinking &&
                       msg.id === messages[messages.length - 1]?.id && (
